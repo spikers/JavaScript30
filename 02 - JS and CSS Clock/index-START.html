@@ -61,12 +61,50 @@
       background:black;
       position: absolute;
       top:50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(0, 4.61, 0.91, 0.74)
     }
 
   </style>
 
   <script>
+  const secondHand = document.querySelector(".second-hand");
+  const minuteHand = document.querySelector(".min-hand");
+  const hourHand = document.querySelector(".hour-hand");
+  const hand = document.querySelectorAll(".hand");
+  let times = 0;
 
+  function setDate() {
+    const now = new Date();
+    
+    const seconds = now.getSeconds();
+    const secondsDegrees = (seconds / 60) * 360 + 90 + 360 * times;
+    console.log(seconds);
+
+    const minutes = now.getMinutes();
+    const minutesDegrees = (minutes / 60) * 360 + 90 + 360 * times;
+
+    const hours = now.getHours();
+    const hoursDegrees = (hours / 12) * 360 + 90 + 360 * times;
+
+    /*This is solution 1. It's kind of a messy solution.*/
+    if (secondsDegrees == 90) {
+      hand.forEach((element) => element.style["transition-duration"] = "0s");
+    } else {
+      hand.forEach((element) => element.style["transition-duration"] = "0.05s")
+    }
+
+    secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+    minuteHand.style.transform = `rotate(${minutesDegrees}deg)`;
+    hourHand.style.transform = `rotate(${hoursDegrees}.deg)`;
+
+    
+    
+  }
+
+  setInterval(setDate, 1000);
 
   </script>
 </body>
